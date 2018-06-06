@@ -1,7 +1,7 @@
 from interface import *
 class Throwing_coins(Frame):
     def __init__(self, master):
-        """Inicjalizacja okno"""
+        #inicjalizacja okna
         self.__coins = 0.0
         super(Throwing_coins, self).__init__(master)
         self.grid()
@@ -9,7 +9,7 @@ class Throwing_coins(Frame):
         self.center()
 
     def create_widgets(self, X):
-        """Tworzy widgety """
+        #tworzenie widzetu
         leftFrame = Frame(self)
         leftFrame.pack(side=LEFT, fill=Y)
         sideFrame = Frame(self)
@@ -58,16 +58,16 @@ class Throwing_coins(Frame):
         self.wroc.pack(fill=Y, anchor=W)
 
     def thr0w(self, coin, X):
-        """Ustal wartość pieniążka, zamyka okno"""
+        #ustala wartosc monety i zamyka sie
         self.__coins = coin
         X.quit()
         X.destroy()
 
     def get_coin(self):
-        """Zwróć wartość pieniążka"""
         return self.__coins
 
     def center(self):
+        #centruje okno na ekranie
         self.master.update_idletasks()
         width = self.master.winfo_width()
         height = self.master.winfo_height()

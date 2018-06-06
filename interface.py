@@ -19,9 +19,9 @@ class Maschine(Frame):
 
         self.monety_wrzucane = []  # lista wrzuconych monet
         self.reszta = 0.0  # reszta
-        self.monety_w_automacie = []  # lista obiektow monet
-        self.suma_w_automacie = 0.0  # suma monet znajdujących się w automacie
-        self.monety_reszta = []  # lista monet ktore zwraca
+        self.money_in_maschine = []  # lista obiektow monet
+        self.sum_in_maschine = 0.0  # suma monet znajdujących się w automacie
+        self.money_rest = []  # lista monet ktore zwraca
 
         self.buy_ticket = []
 
@@ -85,6 +85,7 @@ class Maschine(Frame):
         key_cofnij.pack(fill=Y, anchor=N)
 
     def center(self):
+        #centrowanie okna na ekranie
         self.master.update_idletasks()
         width = self.master.winfo_width()
         height = self.master.winfo_height()
@@ -93,22 +94,22 @@ class Maschine(Frame):
         self.master.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
     def inicjalize_coins(self):
-        """Tworzenie monet"""
+        # tworzenie listy obiektow moneta
         nominal = [50.0, 20.0, 10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]
         ilosc = [3, 5, 4, 0, 12, 0, 14, 0, 4, 0, 55, 100]
        # ilosc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-        self.monety_w_automacie = [Coin(nom=nominal[x], il=ilosc[x]) for x in range(12)]  #wpisanie do listy stanu monet w automacie
+        self.money_in_maschine = [Coin(nom=nominal[x], il=ilosc[x]) for x in range(12)]  #wpisanie do listy stanu monet w automacie
 
     def inicjalize_ticket(self):
-        """Tworzenie biletow"""
+        #tworzenie listy obiektow bilet
         nazwy = ["Normalny 20 min","Ulgowy 20 min","Normalny 40 min","Ulgowy 40 min","Normalny 60 min","Ulgowy 60 min"]
         cena = [1.70, 1.40, 2.20, 1.70, 2.80, 2.40]
 
         self.ticket = [Ticket(name=nazwy[x], prize=cena[x]) for x in range(6)]
 
     def throw_coins(self):
-        """Mechanizm wrzucania monet"""
+        #wrzucanie monet
         pocket = Tk()
         pocket.title("Portfel")
         pckt = Throwing_coins(pocket) #??
@@ -123,31 +124,28 @@ class Maschine(Frame):
             self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
 
     def g_b_coins(self):
-        """mechanizm wyrzucania monet"""  # !!!!!!!!!!!!!!!!!!!!
-        self.monety_reszta = [x for x in self.monety_wrzucane]
-        print("zwrócone :", self.monety_reszta)
+        #wyrzucanie monet
+        self.money_rest = [x for x in self.monety_wrzucane]
+        print("zwrócone :", self.money_rest)
         self.monety_wrzucane = []
         self.sum_coins = 0.0
         self.screen.delete(0.0, END)
         self.screen.insert(0.0, "Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
-        # test
-       # print("zwrócone :", self.monety_reszta)
-        # print("Monety wrzucone :", self.monety_wrzucane)
 
     def take_coins(self):
-        """Odebranie reszty"""
-        print("reszta :", self.monety_reszta)
+        #odebranie reszty
+        print("reszta :", self.money_rest)
         mach = Tk()
         mach.title("WEŹ RESZTĘ!")
-        gbc = Give_Back(mach, self.monety_reszta, "Twoja reszta")
+        gbc = Give_Back(mach, self.money_rest, "Twoja reszta")
         mach.mainloop()
-        self.monety_reszta = []
+        self.money_rest = []
         self.text = ""
         self.sum_ticket =0.0
         self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
 
     def take_product(self):
-        """Odebranie produktu"""
+        #odebranie biletu"
         prod = Tk()
         prod.title("WEŹ BILET/Y !!!")
         gbc = Give_Back(prod, self.buy_ticket, "Twoje bilety ")
@@ -155,36 +153,31 @@ class Maschine(Frame):
         self.buy_ticket = []
         self.write("Nazwa:"+self.text + "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
 
-    def write(self, text):
-        """Wypisywanie komunikatów na screenie"""
-        self.screen.delete(0.0, END)
-        self.screen.insert(0.0, text)
-
     def rest(self, ticket):
-        """Oblicza resztę"""
+        #obliczanie reszty
         # dodawanie wrzuconych monet do monet w maszynie
         for j in self.monety_wrzucane:
-            for k in self.monety_w_automacie:
+            for k in self.money_in_maschine:
                 if j == k.get_nominal():
                     k.inc()
 
         # oblicanie sumy w automacie
-        for i in self.monety_w_automacie:
-            self.suma_w_automacie += i.wartosc()
-        self.suma_w_automacie = round(self.suma_w_automacie, 2)
+        for i in self.money_in_maschine:
+            self.sum_in_maschine += i.wartosc()
+        self.sum_in_maschine = round(self.sum_in_maschine, 2)
 
 
-        for obj in self.monety_w_automacie:
+        for obj in self.money_in_maschine:
             print(obj)
             print("-------")
 
-        if self.reszta < self.suma_w_automacie:
+        if self.reszta < self.sum_in_maschine:
             # obliczanie reszty
-            for l in self.monety_w_automacie:
+            for l in self.money_in_maschine:
                 logic = True
                 while logic:
                     if (round(self.reszta, 2) - l.get_nominal() >= 0) and (l.get_ilosc() > 0):
-                        self.monety_reszta.append(l.get_nominal())
+                        self.money_rest.append(l.get_nominal())
                         self.reszta -= l.get_nominal()
                         self.reszta = round(self.reszta, 2)
                         l.dec()
@@ -201,25 +194,25 @@ class Maschine(Frame):
                 self.text = ""
                 self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins) + "\nWEZ RESZTE ")
             else:
-                for j in self.monety_reszta:
-                    for k in self.monety_w_automacie:
+                for j in self.money_rest:
+                    for k in self.money_in_maschine:
                         if j == k.get_nominal():
                             k.inc()
 
                 for j in self.monety_wrzucane:
-                    for k in self.monety_w_automacie:
+                    for k in self.money_in_maschine:
                         if j == k.get_nominal():
                             k.dec()
 
-                print("reszta :", self.monety_reszta)
-                self.monety_reszta = [x for x in self.monety_wrzucane]
+                print("reszta :", self.money_rest)
+                self.money_rest = [x for x in self.monety_wrzucane]
                 self.monety_wrzucane = []
                 self.sum_coins = 0.0
                 self.text = ""
                 self.write("Wrzuć odliczoną kwotę!! \nWybierz ponownie ")
 
     def keys_operation(self, key):
-
+        #operacje na przyciskach
         # od nowa czyli wyczyszczenie list
         if key == 10:
             self.choose_ticket = []
@@ -258,7 +251,7 @@ class Maschine(Frame):
 
                 # dodawanie wrzuconych monet do monet w maszynie
                 for i in self.monety_wrzucane:
-                    for j in self.monety_w_automacie:
+                    for j in self.money_in_maschine:
                         if i == j.get_nominal():
                             j.inc()
 
@@ -276,18 +269,18 @@ class Maschine(Frame):
             self.text = ""
 
     def take_coins(self):
-        """Odebranie reszty"""
-        print("reszta :", self.monety_reszta)
+        #odebranie rezty
+        print("reszta :", self.money_rest)
         mach = Tk()
         mach.title("WEŹ RESZTĘ !!!")
-        gbc = Give_Back(mach, self.monety_reszta, "Twoja reszta")
+        gbc = Give_Back(mach, self.money_rest, "Twoja reszta")
         mach.mainloop()
-        self.monety_reszta = []
+        self.money_rest = []
         self.text = ""
         self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
 
     def take_ticket(self):
-        """Odebranie biletu"""
+        #odebranie biletu
         prod = Tk()
         prod.title("Odbierz bilet!!!")
         gbc = Give_Back(prod, self.kupione_bilety, "Twoje bilety ")
@@ -297,7 +290,7 @@ class Maschine(Frame):
         self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
 
     def write(self, text):
-        """Wypisywanie komunikatów na screenie"""
+        #text na ekranie
         self.screen.delete(0.0, END)
         self.screen.insert(0.0, text)
 

@@ -1,16 +1,16 @@
 from interface import *
 class Give_Back(Frame):
     def __init__(self, master, bc, text):
-        """Inicjalizacja okno"""
+        #inicjalizacja
         self.typ = text
         self.coins = bc
         super(Give_Back, self).__init__(master)
-        self.grid()
+        self.pack()
         self.create_widgets(master)
         self.center()
 
     def create_widgets(self, X):
-        """Tworzy widgety """
+        #tworzenie widzetu
         topFrame = Frame(self)
         topFrame.pack(fill=Y)
         lowFrame = Frame(self)
@@ -25,7 +25,7 @@ class Give_Back(Frame):
         self.key1.pack()
 
     def write_coins(self):
-        """Wypełnienie listy monet"""
+        #wypelnianie listy zwroconych monet
         lista = ""
         lista += self.typ + " :\n"
         for i in self.coins:
@@ -34,7 +34,7 @@ class Give_Back(Frame):
         self.coins_list.insert(0.0, lista)
 
     def back(self, X):
-        """Ustal wartość pieniążka, zamyka okno"""
+        #zamykanie okna
         X.quit()
         X.destroy()
 
