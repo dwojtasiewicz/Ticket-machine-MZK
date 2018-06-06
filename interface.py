@@ -95,8 +95,8 @@ class Maschine(Frame):
     def inicjalize_coins(self):
         """Tworzenie monet"""
         nominal = [50.0, 20.0, 10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]
-       # ilosc = [3, 5, 4, 0, 12, 0, 14, 0, 4, 0, 55, 100]
-        ilosc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ilosc = [3, 5, 4, 0, 12, 0, 14, 0, 4, 0, 55, 100]
+       # ilosc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         self.monety_w_automacie = [Coin(nom=nominal[x], il=ilosc[x]) for x in range(12)]  #wpisanie do listy stanu monet w automacie
 
@@ -199,7 +199,7 @@ class Maschine(Frame):
                 self.sum_ticket = 0.0
                 self.take_product()
                 self.text = ""
-                self.write("Kwota :" + str(self.sum_coins) + "\nNazwa :" + self.text + "\nWeź produkt ")
+                self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins) + "\nWEZ RESZTE ")
             else:
                 for j in self.monety_reszta:
                     for k in self.monety_w_automacie:
@@ -239,7 +239,7 @@ class Maschine(Frame):
             print(moneta)
             if moneta != 0.0:
                 self.sum_ticket += moneta
-                #self.sum_ticket = round(self.sum_coins, 2)  # zaokraglanie sumy monet
+                self.sum_ticket = round(self.sum_ticket, 2)  # zaokraglanie sumy monet
                 print(self.sum_ticket)
                 self.text += "\n" +str(obj.get_nazwa())
                 self.buy_ticket.append(obj.get_nazwa())
@@ -284,7 +284,7 @@ class Maschine(Frame):
         mach.mainloop()
         self.monety_reszta = []
         self.text = ""
-        self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_coins))
+        self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
 
     def take_ticket(self):
         """Odebranie biletu"""
@@ -294,7 +294,7 @@ class Maschine(Frame):
         prod.mainloop()
         self.kupione_bilety = []
         self.text = ""
-        self.write("Nazwa:"+self.text + "\nKwota:" + str(self.sum_coins))
+        self.write("Nazwa:"+self.text+ "\nKwota:" + str(self.sum_ticket)+"\nWrzucono:" + str(self.sum_coins))
 
     def write(self, text):
         """Wypisywanie komunikatów na screenie"""

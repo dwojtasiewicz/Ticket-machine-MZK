@@ -31,7 +31,7 @@ class Give_Back(Frame):
         for i in self.coins:
             lista += str(i) + "\n"
 
-        self.coins_list.insert(0.0, lista)#wpisywanie do listy
+        self.coins_list.insert(0.0, lista)
 
     def back(self, X):
         """Ustal wartość pieniążka, zamyka okno"""

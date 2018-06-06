@@ -15,6 +15,9 @@ class Throwing_coins(Frame):
         sideFrame = Frame(self)
         sideFrame.pack(side=RIGHT, fill=Y)
 
+        self.label = Button(leftFrame,text="Wrzuć monete:", height=4,width=15,background="grey")
+        self.label.pack(fill=Y, anchor=W)
+
         self.key1 = Button(leftFrame, text="0.01 zł ", height=4,width=15,background="white", command=lambda: self.thr0w(0.01, X))
         self.key1.pack(fill=Y, anchor=W)
 
@@ -31,9 +34,9 @@ class Throwing_coins(Frame):
         self.key5.pack(fill=Y, anchor=W)
 
         self.key6 = Button(leftFrame, text="0.5 zł ",height=4,width=15,background="white", command=lambda: self.thr0w(0.5, X))
-        self.key1.pack(fill=Y, anchor=W)
+        self.key6.pack(fill=Y, anchor=W)
 
-        self.key7 = Button(leftFrame, text="1.0 zł  ",height=4,width=15,background="white", command=lambda: self.thr0w(1.0, X))
+        self.key7 = Button(sideFrame, text="1.0 zł  ",height=4,width=15,background="white", command=lambda: self.thr0w(1.0, X))
         self.key7.pack(fill=Y, anchor=W)
 
         self.key8 = Button(sideFrame, text="2.0 zł ",height=4,width=15,background="white", command=lambda: self.thr0w(2.0, X))
@@ -52,7 +55,7 @@ class Throwing_coins(Frame):
         self.key9.pack(fill=Y, anchor=W)
 
         self.wroc = Button(sideFrame, text="Wróć",height=4,width=15,background="grey", command=lambda: self.thr0w(0.0, X))
-        self.wroc.pack(fill=Y ,anchor=S)
+        self.wroc.pack(fill=Y, anchor=W)
 
     def thr0w(self, coin, X):
         """Ustal wartość pieniążka, zamyka okno"""
